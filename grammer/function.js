@@ -10,3 +10,5 @@ let func2 = (props) => {
 
 let str = "변수";
 func2(str);
+
+console.log("test");
