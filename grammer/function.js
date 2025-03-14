@@ -3,4 +3,10 @@ let func1 = function () {
 };
 
 func1();
-// 변경
+
+let func2 = (props) => {
+  console.log("익명함수" + props);
+};
+
+let str = "변수";
+func2(str);
