@@ -12,6 +12,10 @@ app.post('/swag', (req, res) => {
     res.send(req.body);
 });
 
+app.post('/swag/:person', (req, res) => {
+    res.send(req.params.person);
+});
+
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
 });
