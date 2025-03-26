@@ -1,20 +1,11 @@
 const express = require('express');
+const swagRouter = require('./routes/swag');
+
 const app = express();
-const port = 1234;
+const port = 2007;
 
 app.use(express.json())
-
-app.get('/swag', (req, res) => {
-    res.send('get swag');
-});
-
-app.post('/swag', (req, res) => {
-    res.send(req.body);
-});
-
-app.post('/swag/:person', (req, res) => {
-    res.send(req.params.person);
-});
+app.use('/swag', swagRouter);
 
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
