@@ -40,6 +40,20 @@ app.get('/travel', (req, res) => {
   });
 });
 
+app.get('/travel/:id', (req, res) => {
+  const travelId = req.params.id;
+  const _query = 'SELECT * FROM travellist WHERE id=?';
+  db.query(_query, [travelId],(err, results) => {
+    if(err){
+      console.error('데이터베이스 쿼리 실패', err);
+      res.status(500).send('Internal Server Error');
+      return;
+    }
+    const travel = results[0];
+    res.render('travelDetail', {travel});
+  });
+});
+
 app.listen(port, () => {
   console.log(`Express server running at http://localhost:${port}`);
 });
