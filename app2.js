@@ -22,6 +22,9 @@ db.connect(err => {
   console.log('MySQL 열결 성공');
 })
 
+app.use(express.json());
+app.use(express.urlencoded({extended: true}));
+
 app.set('view engine', 'ejs');
 // __dirname : 현재 파일이 속해있는 디렉토리의 절대경로
 // path.join : 운영체제에 맞추어 경로지정자(\, /)를 설정해준다
@@ -53,6 +56,19 @@ app.get('/travel/:id', (req, res) => {
     res.render('travelDetail', {travel});
   });
 });
+
+app.post('/travel', (req, res) => {
+  const {name} = req.body;
+  const _query = 'INSERT INTO travellist (name) VALUES (?)';
+  db.query(_query, [name],(err, results) => {
+    if(err){
+      console.error('데이터베이스 쿼리 실패', err);
+      res.status(500).send('Internal Server Error');
+      return;
+    }
+    res.redirect('/travel');
+  });
+})
 
 app.listen(port, () => {
   console.log(`Express server running at http://localhost:${port}`);
