@@ -1,20 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const mysql = require('mysql2');
+const db = require('../db')
 
-const db = mysql.createConnection({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME
-});
-
-db.connect(err => {
-  if (err) {
-    console.error('MySQL 연결 실패: ', err);
-    return;
-  }
-  console.log('MySQL 연결 성공');
+router.get('/add', (req, res) => {
+  res.render('addTravel');
 });
 
 router.get('/', (req, res) => {
@@ -25,7 +14,8 @@ router.get('/', (req, res) => {
       res.status(500).send('Internal Server Error');
       return;
     }
-    res.render('travel', { travelList: results });
+    const travelList = results;
+    res.render('travel', { travelList });
   });
 });
 
@@ -38,12 +28,9 @@ router.get('/:id', (req, res) => {
       res.status(500).send('Internal Server Error');
       return;
     }
-    res.render('travelDetail', { travel: results[0] });
+    const travel = results[0];
+    res.render('travelDetail', { travel });
   });
-});
-
-router.get('/add-travel', (req, res) => {
-  res.render('addTravel');
 });
 
 router.post('/', (req, res) => {

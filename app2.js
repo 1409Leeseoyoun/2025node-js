@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const methodOverride = require('method-override');
 const dotenv = require('dotenv');
+const travelRouter = require('./routes/travel');
 dotenv.config();
 
 const app = express();
@@ -14,7 +15,6 @@ app.use(express.urlencoded({ extended: true }));
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
-const travelRouter = require('./routes/travel');
 app.use('/travel', travelRouter);
 
 app.listen(port, () => {
