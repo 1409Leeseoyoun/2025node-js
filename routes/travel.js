@@ -6,6 +6,19 @@ router.get('/add', (req, res) => {
   res.render('addTravel');
 });
 
+router.post('/', (req, res) => {
+  const { name } = req.body;
+  const _query = 'INSERT INTO travellist (name) VALUES (?)';
+  db.query(_query, [name], (err) => {
+    if (err) {
+      console.error('데이터베이스 쿼리 실패', err);
+      res.status(500).send('Internal Server Error');
+      return;
+    }
+    res.redirect('/travel');
+  });
+});
+
 router.get('/', (req, res) => {
   const _query = 'SELECT * FROM travellist';
   db.query(_query, (err, results) => {
@@ -30,19 +43,6 @@ router.get('/:id', (req, res) => {
     }
     const travel = results[0];
     res.render('travelDetail', { travel });
-  });
-});
-
-router.post('/', (req, res) => {
-  const { name } = req.body;
-  const _query = 'INSERT INTO travellist (name) VALUES (?)';
-  db.query(_query, [name], (err) => {
-    if (err) {
-      console.error('데이터베이스 쿼리 실패', err);
-      res.status(500).send('Internal Server Error');
-      return;
-    }
-    res.redirect('/travel');
   });
 });
 
